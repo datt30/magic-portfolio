@@ -1,4 +1,4 @@
-# Database configuration
+# Database Configuration
 SERVER = 'zemoga-test-db.crhpedy9xxto.us-east-1.rds.amazonaws.com'
 USER_NAME = 'zemoga_test_db'
 PASSWORD = 'Zem0ga.101'

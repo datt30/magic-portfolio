@@ -3,7 +3,7 @@ from app import app, db
 from flask import request, jsonify
 
 
-@app.route('/poc/v1/portfolios/', methods=['GET'])
+@app.route('/magic-portfolio/v1/portfolios/', methods=['GET'])
 def get_portfolios():
     try:
         portfolio_list = Portfolio.query.all()
@@ -14,7 +14,7 @@ def get_portfolios():
         return jsonify({'message': 'server error', 'error': str(e)}), 500
 
 
-@app.route('/poc/v1/portfolio/<int:id_portfolio>', methods=['PUT'])
+@app.route('/magic-portfolio/v1/portfolio/<int:id_portfolio>', methods=['PUT'])
 def update_portfolio(id_portfolio):
     content = request.json
     try:

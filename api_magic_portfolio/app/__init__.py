@@ -4,7 +4,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
-app.config.from_pyfile('config.py')
+app.config.from_pyfile('config/config_db.py')
 db = SQLAlchemy(app)
 
 
@@ -15,4 +15,4 @@ def home():
 
 
 # import the routes in our API
-from app.routes import PortfolioRoutes
+from app.routes import PortfolioRoutes, TweetRoutes
