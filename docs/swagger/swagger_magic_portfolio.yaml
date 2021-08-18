@@ -1,0 +1,100 @@
+---
+swagger: "2.0"
+info:
+  description: magic-portfolio is a POC focused in explore and make a straightforward API with new flask 2.0 and consume third parties services like twitter API.
+  version: 1.0.0
+  title: MAGIC PORTFOLIO
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: davidtamayo30@gmail.com
+  license:
+    name: GNU
+    url: https://www.gnu.org/licenses/gpl-3.0.html
+host: virtserver.swaggerhub.com
+basePath: /datt30/magic-portfolio/
+schemes:
+- https
+- http
+paths:
+  /magic-portfolio/v1/portfolios:
+    get:
+      tags:
+      - portfolio
+      summary: Get a list of portfolio objects
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      - application/xml
+      responses:
+        "201":
+          description: successful operation
+        "400":
+          description: Invalid endpoint
+        "500":
+          description: Internal server error
+    put:
+      tags:
+      - portfolio
+      summary: Update an existing portfolio
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Portfolio object that needs to be added in our DB
+        required: true
+        schema:
+          $ref: '#/definitions/Portfolio'
+      responses:
+        "201":
+          description: successful operation
+        "400":
+          description: Invalid portfolio id
+        "404":
+          description: Portfolio not found
+        "500":
+          description: Validation exception in server
+  /magic-portfolio/v1/tweets/elonmusk:
+    get:
+      tags:
+      - tweets
+      summary: Finds the first five tweets of an user
+      description: Return a list of tweets as strings
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: ''
+        "400":
+          description: Invalid request
+        "500":
+          description: Error in server response
+definitions:
+  Portfolio:
+    type: object
+    properties:
+      twitterUser:
+        type: string
+      description:
+        type: string
+      imageUrl:
+        type: string
+      title:
+        type: string
+      names:
+        type: string
+      lastNames:
+        type: string
+  ErrorHandler:
+    type: object
+    properties:
+      message:
+        type: string
