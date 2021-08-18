@@ -1,40 +1,64 @@
 <template>
     <div class="card">
+      <div class="portfolio-container">
         <div class="img">
-            <img :src="`@/assets/user.png`">
+            <img :src="data.imageUrl">
         </div>
         <div class="infos">
-        <div class="name">
-            <h1>{{ data.names }} {{ data.lastNames }}</h1>
-            <h4>@{{ data.twitterUser }}</h4>
+          <div class="name">
+              <h1>{{ data.names }} {{ data.lastNames }}</h1>
+              <h4>@{{ data.twitterUser }}</h4>
+          </div>
+          <h3>{{ data.title }}</h3>
+          <p class="text">
+              {{ data.description }}
+          </p>
         </div>
-        <p class="text">
-            {{ data.description }}
-        </p>
-        <ul class="stats">
-            <li>
-            <h3>15K</h3>
-            <h4>edits</h4>
-            </li>
-            <li>
-            <h3>82</h3>
-            <h4>Projects</h4>
-            </li>
-            <li>
-            <h3>1.3M</h3>
-            <h4>Followers</h4>
-            </li>
-        </ul>
-        <div class="links">
-            <button class="edit">Edit Portfolio</button>
+      </div>
+      <div v-if="tweets.length" class="tweets-container">
+        <div v-bind:key="tweet" v-for="tweet in tweets">
+          <div class="tweet-card">
+            <img src="@/assets/tweet_icon.png">
+            <p class="text">
+                {{ tweet }}
+            </p>
+          </div>
         </div>
-        </div>
+      </div>
+      <div class="options-container">
+        <button class="edit" @click="showModal">Edit Portfolio</button>
+      </div>
+      <div class="modal-update">
+        <modal-update-portfolio
+          v-show="isModalVisible"
+          @close="closeModal"
+          @update="updatePortfolioData"
+        >
+          <template v-slot:header>
+            Change the {{ data.names }} portfolio data!
+          </template>
+          <template v-slot:body>
+            <input v-model="names" :placeholder="data.names">
+            <input v-model="lastNames" :placeholder="data.lastNames">
+            <input v-model="twitterUser" :placeholder="data.twitterUser">
+            <input v-model="title" :placeholder="data.title">
+            <input v-model="description" :placeholder="data.description">
+            <input v-model="imageUrl" :placeholder="data.imageUrl">
+          </template>
+        </modal-update-portfolio>
+      </div>
     </div>
 </template>
 
 <script>
+import axios from "axios"
+import ModalUpdatePortfolio from "../components/ModalUpdatePortfolio";
+
 export default {
   name: 'PortfolioCard',
+  components: {
+    ModalUpdatePortfolio
+  },
   props: {
     data: {
         type: Object,
@@ -43,9 +67,50 @@ export default {
   },
   methods: {
     getUserImg(data) {
-        console.log(data.imageUrl)
         return ((data.imageUrl) ? data.imageUrl : '@/assets/user.png')
+    },
+    showModal() {
+        this.isModalVisible = true;
+    },
+    closeModal() {
+      this.isModalVisible = false;
+    },
+    updatePortfolioData() {
+      let payload = {
+        description: this.description,
+        imageUrl: this.imageUrl,
+        lastNames: this.lastNames,
+        names: this.names,
+        title: this.title,
+        twitterUser: this.twitterUser
+      };
+      axios.put(`http://127.0.0.1:5000/magic-portfolio/v1/portfolio/${ this.data.idPortfolio }`, payload).then((result) => {
+        console.log(result);
+        this.isModalVisible = false;
+      });
     }
+  },
+  data () {
+    return {
+      tweets: [],
+      isModalVisible: false,
+      description: '',
+      imageUrl: '',
+      lastNames: '',
+      names: '',
+      title: '',
+      twitterUser: ''
+    }
+  },
+  mounted() {
+    axios
+      .get(`http://127.0.0.1:5000/magic-portfolio/v1/tweets/${ this.data.twitterUser }`)
+      .then(response => {
+        this.tweets = response.data.tweets
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 }
 </script>
@@ -59,26 +124,47 @@ export default {
   box-sizing: border-box;
 }
 
-.card {
-  margin-left: 50%;
+input {
+  height: 30px;
+  width: 80%;
+  border-radius: 10px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
+
+.modal-update {
+  z-index: 100;
+}
+
 img {
-  max-width: 100%;
+  width: 140px;
+  height: 140px;
   display: block;
 }
 ul {
   list-style: none;
 }
 
-/* Utilities */
 .card::after,
 .card img {
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
 }
-body,
-.card,
-.stats {
+
+.tweet-card,
+.portfolio-container {
   display: flex;
+}
+
+.tweets-container {
+  margin-top: 10px;
+}
+
+.options-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
 }
 
 .card {
@@ -116,12 +202,20 @@ body,
 }
 
 .card img {
-  width: 8rem;
-  min-width: 100px;
+  width: 140px;
+  height: 140px;
+}
+
+.tweet-card img {
+  padding-top: 10px;
+  width: 50px;
+  height: 50px;
 }
 
 .infos {
   margin-left: 1.5rem;
+  text-align: justify;  
+  text-justify: auto;
 }
 
 .name {
@@ -137,23 +231,18 @@ body,
 
 .text {
   font-size: .9rem;
+  margin-top: 1rem;
   margin-bottom: 1rem;
+  text-align: justify;  
+  text-justify: auto;
 }
 
-.stats {
-  margin-bottom: 1rem;
-}
-.stats li {
-  min-width: 5rem;
-}
-.stats li h3 {
-  font-size: .99rem;
-}
-.stats li h4 {
-  font-size: .75rem;
+.tweet-img {
+  max-width: 20px;
+  max-height: 20px;
 }
 
-.links button {
+.options-container button {
   font-family: 'Poppins', sans-serif;
   min-width: 120px;
   padding: .5rem;
@@ -163,13 +252,13 @@ body,
   cursor: pointer;
   transition: all .25s linear;
 }
-.links .follow,
-.links .edit:hover {
+.options-container .follow,
+.options-container .edit:hover {
   background-color: #222;
   color: #FFF;
 }
-.links .edit,
-.links .follow:hover{
+.options-container .edit,
+.options-container .follow:hover{
   background-color: transparent;
   color: #222;
 }
@@ -182,7 +271,7 @@ body,
     margin-left: 0;
     margin-top: 1.5rem;
   }
-  .links button {
+  .options-container button {
     min-width: 100px;
   }
 }

@@ -1,0 +1,93 @@
+{
+	"info": {
+		"_postman_id": "7f71ac27-5d46-47d8-b917-32a5cfe31939",
+		"name": "MagicPortfolio",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Portfolios List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/magic-portfolio/v1/portfolios/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"magic-portfolio",
+						"v1",
+						"portfolios",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Portfolio",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"Testo 5\",\r\n    \"imageUrl\": \"Testo 5\",\r\n    \"lastNames\": \"Testo 5\",\r\n    \"names\": \"Testo 5\",\r\n    \"title\": \"Testo 5\",\r\n    \"twitterUser\": \"Testo 5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/magic-portfolio/v1/portfolio/32",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"magic-portfolio",
+						"v1",
+						"portfolio",
+						"32"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Tweets List By User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/magic-portfolio/v1/tweets/elonmusk",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"magic-portfolio",
+						"v1",
+						"tweets",
+						"elonmusk"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

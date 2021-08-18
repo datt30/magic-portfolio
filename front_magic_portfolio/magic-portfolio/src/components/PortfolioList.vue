@@ -1,5 +1,5 @@
 <template>
-    <div id="list">
+    <div id="list" class="list-portfolios">
       <div v-bind:key="portfolio" v-for="portfolio in portfolios">
         <portfolio-card :data="portfolio"/>
       </div>
@@ -14,18 +14,6 @@ export default {
   name: 'PortfolioList',
   components: {
     PortfolioCard
-  },
-  methods: {
-    updatePortfolio () {
-      let payload = {
-        title: 'foo',
-        body: 'bar',
-        userId: 1
-      };
-      axios.put("http://127.0.0.1:5000/magic-portfolio/v1/portfolios/", payload).then((result) => {
-        console.log(result);
-      });
-    }
   },
   data () {
     return {
@@ -44,3 +32,13 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .list-portfolios {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+</style>
