@@ -2,6 +2,8 @@
 magic-portfolio is a POC focused in explore and make a straightforward API with new flask 2.0 and consume third parties services like twitter API.
 
 # Little Demo
+https://user-images.githubusercontent.com/4467437/129903678-cd4827e0-acd2-466b-9d7b-3dc9498665f2.mp4
+
 
 
 # Fron-end Layer
@@ -13,8 +15,7 @@ For create the front-end I used Vue.js and for UI component infrastructure Mater
 - ORM with SQLAlchemy
 
 # Documentation
-- You can see the entire documentation in swagger here: https://app.swaggerhub.com/apis-docs/datt30/POC/1.0.0
-- Also you can find a postman collection and YAML in Docs folder
+- You can find a postman collection and YAML in Docs folder
 
 # How to run the API
 First of all we need to create a virtual environment to our flask project, go to api_magic_portfolio folder in your terminal and execute.
@@ -45,6 +46,7 @@ Get your API up and running with:
 
 
 Use the postman collection or swagger documentation to test the different available endpoints.
+![postman_example](https://user-images.githubusercontent.com/4467437/129902618-728c3850-cd45-437b-b9d8-78c0410dedb6.png)
 
 
 # How to run the Vue Front-End
